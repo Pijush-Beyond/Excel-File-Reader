@@ -130,7 +130,6 @@ const putData = (workbook, fileName,fileInputTag) => {
 const postFile = e => {
     oData = new FormData(e.target.parentElement);
     let message = document.createElement("i");
-    // message.innerText = "Uploading";
     message.classList.add("fas", "fa-spinner", "fa-spin");
     message.style.color = "white";
     e.target.parentElement.parentElement.replaceChild(message, e.target.parentElement);
@@ -170,10 +169,11 @@ function handleFileSelect(e) {
 const loadData = () => {
     document.getElementById('upload').addEventListener('change', handleFileSelect, false);
     document.getElementById('upload').addEventListener('submit', e => e.preventDefault(), true);
-    for (let file of ALLFIELS) iterativeXMLCall(file.name, file.fileName,file.url);
+    // for (let file of ALLFIELS) iterativeXMLCall(file.name, file.fileName,file.url);
+    ALLFIELS.map((file,key)=>iterativeXMLCall(file.name, file.fileName,file.url,key===0));
 }
 
-function iterativeXMLCall(nameFromDataBase,fileNameFromDataBase,url){
+function iterativeXMLCall(nameFromDataBase,fileNameFromDataBase,url,key){
     const xhttp = new XMLHttpRequest();
     xhttp.open("GET", "/data/" + fileNameFromDataBase, true);
     xhttp.send();
@@ -181,12 +181,15 @@ function iterativeXMLCall(nameFromDataBase,fileNameFromDataBase,url){
         if (this.status == 200) {
             let data = JSON.parse(this.responseText);
             const sideContainer = document.getElementById('file-names');
+            try {
+                document.querySelector('i.fas.fa-spinner.fa-spin').remove();
+            } catch (err) {}
 
             // Container for File 
             const name = document.createElement('div');
             name.classList.add('names');
-            // console.log(sideContainer.children.length);
-            sideContainer.children.length<1 ? name.classList.add('names-active') : '';
+            // console.log(sideContainer.children.length, nameFromDataBase);
+            key ? name.classList.add('names-active') : '';
 
             // putting the name of the file in a span
             let divForName = document.createElement('div');
@@ -214,7 +217,8 @@ function iterativeXMLCall(nameFromDataBase,fileNameFromDataBase,url){
 
             // displayed file container
             let sheets = document.createElement('div');
-            sheets.classList.add('sheets', 'active-sheets');
+            sheets.classList.add('sheets')
+            key ? sheets.classList.add('active-sheets'):'';
             sheets.id = fileId.value;
             sheetContainer.appendChild(sheets);
 

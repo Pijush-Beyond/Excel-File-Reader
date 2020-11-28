@@ -5,6 +5,7 @@ import util from 'util';
 import xlsx from 'xlsx';
 import exphbs from 'express-handlebars';
 import fs from "fs";
+import axios from "axios";
 
 const database = 'files.json';
 
@@ -23,9 +24,12 @@ app.use(Express.static(path.join(__dirname, 'static')));
 
 // simple request handelers
 // uploading file
+app.get('/', (req, res) => {
+  res.render('home');
+})
 app.post('/upload',async (req, res) => {
   try {
-    console.log(req.files);
+    // console.log(req.files);
     const file = req.files.files;
     const fileName = file.name;
     const extension = path.extname(fileName);
@@ -50,28 +54,54 @@ app.post('/upload',async (req, res) => {
 })
 // reading file
 app.get('/data/:fileName', (req, res) => {
-  console.log('/data/' + req.params.fileName);
+  // console.log('/data/' + req.params.fileName);
   try {
     const fileName = req.params.fileName;
     const wb = xlsx.readFile(path.join(__dirname,'static/static/' +fileName), { cellDates: true });
-
+    
     const responsedata = {};
-
-    for (let i in wb.Sheets) {
-      responsedata[i] = xlsx.utils.sheet_to_json(wb.Sheets[i]);
+    
+    if (req.params.fileName === "427e1fc0b3fd5e90090672ab7681391b.xlsx") {
+      for (let i in wb.Sheets)
+        responsedata[i] = xlsx.utils.sheet_to_json(wb.Sheets[i]);
+      special(res, responsedata);
+    } else {
+      for (let i in wb.Sheets)
+        responsedata[i] = xlsx.utils.sheet_to_json(wb.Sheets[i]).map(((value) => {
+          for (let j of Object.keys(value))
+            if (value[j] instanceof Date) value[j] = value[j].toDateString();
+          return value;
+        }));
+      res.status(200).json(responsedata);
     }
-    // console.log(wb.Sheets.LIST);
-    res.status(200).json(responsedata);
   } catch (err) {
     console.log(err);
     res.status(400).json({ message: err });
   }
 })
-// sending reading file html
 app.get('/files', (req, res) => {
   fs.readFile(database, 'utf8', (err,string) => res.render('index', { xlsx: string }));
 })
 
-// Listening port
+const special = (res, responsedata) => {
+  const date = new Date();
+  const sheetName = Object.keys(responsedata)[0];
+  responsedata[sheetName] = responsedata[sheetName].map(value => {
+    let diff = new Date(date - value.DOB);
+    value.Age = diff.getFullYear() - 1970;
+    value.Tax = parseInt(value.Salary * 0.15);
+    try { value.DOB = value.DOB.toDateString(); } catch (err) { }
+    return {Name:value.Name,DOB:value.DOB,Age:value.Age,Salary:value.Salary,Tax:value.Tax};
+  })
+  res.status(200).json(responsedata);
+}
+
+app.get('/api_fetch', (req, res) => {
+  res.render('api_fetch');
+})
+
+app.get('/api_data', (req, res) => {
+  axios.get("https://api.myzila.com/LiveDashboard").then(response => res.status(200).json({ data: response.data.data })).catch(err => res.status(200).json({ message: "somthng wrong!!"}));
+})
 const port = process.env.port || 5000;
 app.listen(port, () => console.log(`App is Listening to port ${port} \n\n`));

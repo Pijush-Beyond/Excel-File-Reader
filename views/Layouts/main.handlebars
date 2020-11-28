@@ -14,10 +14,13 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.8.0/xlsx.js"></script>
     <script src="https://kit.fontawesome.com/a076d05399.js"></script>
 </head>
-<body onload="loadData()">
-    <nav>
-        <div class="link">Excel Files</div>
-        <div class="link">API Fetch</div>
+<body onload="loadContent()">
+    <nav style="display: flex;justify-content: flex-start;align-items: center;  border-bottom: 1px solid gray;">
+        <a href="/" style="margin: 5px 10px;">
+            <img src="/static/icons/apple-touch-icon.png" style="width: 50px;height: 50px" alt="Favi Icon">
+        </a>
+        <a class="link" href="/files">Excel Files</a>
+        <a class="link" href="/api_fetch">API Fetch</a>
     </nav>
     {{{body}}}
 </body>

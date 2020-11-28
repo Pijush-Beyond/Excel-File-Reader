@@ -1,0 +1,32 @@
+<div class="file-container" style="display: flex;text-align: center;flex-direction: column;align-items: center;justify-content: flex-start;">
+    <h2 style="background-color: green;color:white;width: 100%;margin: 5px 0;padding:5px 0;">Data</h2>
+    <table style="width: fit-content;text-transform: capitalize;"></table>
+</div>
+<script>
+    const loadContent=()=>{
+        let message = document.createElement("i");
+        message.classList.add("fas", "fa-spinner", "fa-spin");
+        message.style.fontSize = "30px";
+        let container = document.querySelector('.file-container>table');
+        container.parentElement.appendChild(message);
+
+        const xhr=new XMLHttpRequest();
+        xhr.open('get','/api_data',true);
+        xhr.send();
+        xhr.onload=function(){
+            if(this.status==200){
+                message.remove();
+                let data=JSON.parse(this.responseText).data;
+                for(let value in data){
+                    let div=document.createElement('tr');
+                    div.classList.add('api-data');
+                    div.innerHTML=`<td>${value.replace(/_/g," ")}</td>
+                                    <td>${data[value]}</td>`;
+                    container.appendChild(div);
+                }
+            }else{
+                alert("Somthing Wrong!!");
+            }
+        }
+    }
+</script>

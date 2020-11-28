@@ -1,0 +1,16 @@
+<div class="file-container">
+    <div class="side-controller">
+        <div style="width: 100%;display: flex;justify-content: space-between;">
+            <input type="file" name="files" id="upload" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" hidden>
+            <span style="margin: 5px 10px;font-size: 22px;font-weight: bolder;color:green">Files</span>
+            <button type="button" class="file-add" onclick="this.previousElementSibling.previousElementSibling.click()"><big><big><big>+</big></big></big></button>
+        </div>
+        <div id="file-names"><i class="fas fa-spinner fa-spin" style="display: inline-block;width: 100%;text-align: center;"></i></div>
+    </div>
+    <div id="sheet-container"></div>
+</div>
+<script>
+    const ALLFIELS_STR=`{{xlsx}}`;
+    const ALLFIELS=JSON.parse(ALLFIELS_STR.replace(/&quot;/g,'"'));
+    const loadContent=loadData;
+</script>
