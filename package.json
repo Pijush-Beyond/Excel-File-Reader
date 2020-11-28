@@ -1,0 +1,24 @@
+{
+  "name": "Protfolio",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index",
+    "dev": "nodemon index"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1",
+    "express-fileupload": "^1.2.0",
+    "express-handlebars": "^5.2.0",
+    "xlsx": "^0.16.9"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.6"
+  }
+}

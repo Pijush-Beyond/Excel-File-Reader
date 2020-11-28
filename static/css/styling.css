@@ -1,0 +1,162 @@
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+.link{
+    display: inline-block;
+    margin: 10px 20px;
+    text-decoration: none;
+    color: gray;
+    font-size: large;
+}
+.link:active, .link:hover{
+    color: green;
+    text-decoration: underline;
+}
+
+.file-container{
+    display: flex;
+    height: calc(100vh - 42px);
+    width: 100%;
+}
+.side-controller{
+    width: 10%;
+    height: 100%;
+}
+#file-names{
+    width: 100%;
+    height: calc(100% - 26px);
+    overflow: auto;
+}
+#file-names .names{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.names-active{
+    border-width: 0 2px;
+    border-color: green;
+    border-style: solid;
+    border-radius: 2px;
+    background-color: rgb(209, 209, 209);
+    color: green;
+}
+#file-names active-name{
+    border: 1px solid green;
+    box-shadow: 1px 1px 5px 0px gray;
+}
+#sheet-container{
+    width: 90%;
+    height: 100%;
+}
+
+
+.sheets{
+    width: 100%;
+    height: 100%;
+    display: none;
+}
+.active-sheets{
+    display: initial;
+}
+.sheet-name-container{
+    height: 51px;
+    width: 100%;
+    overflow-x: scroll;
+    overflow-y: hidden;
+}
+.sheets-container{
+    width: 100%;
+    height: calc(100% - 51px);
+    position: relative;
+    overflow: auto;
+    background-color: #c7c7c7;
+    
+}
+.sheet-name{
+    display: inline-block;
+    width: fit-content;
+    padding: 5px 5px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;;
+    cursor: pointer;
+    border-width: 1px 1px 1px 0;
+    border-style:  solid;
+    border-color: rgb(28, 141, 28);
+}
+.sheet-name:nth-child(1) {
+    border-width: 1px 0 1px 1px;
+}
+.sheet-name-active {
+    border-bottom-width: 0px;
+    background-color: green;
+    color: white;
+}
+
+.sheet{
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    position: relative;
+    display: none;
+}
+.sheet-active{
+    display: initial;
+}
+.sheet>table th{
+    background-color: green;
+    color: white;
+}
+.sheet>table tr:nth-child(even){
+    color:rgb(90, 90, 90) ;
+}
+.sheet>table tr:nth-child(odd){
+    background-color: rgb(55, 135, 55);
+    color:rgb(230, 230, 230);
+}
+.sheet>table tr:hover{
+    border: 1px solid white;
+    box-shadow: 0 0 5px 0 black;
+}
+.sheet>table tr:nth-child(1):hover{
+    border: none;
+    box-shadow: none;
+}
+td{
+    padding: 5px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+td:hover{
+    background-color: white;
+    color: green;
+}
+th{
+    padding: 5px;
+    white-space: nowrap;
+}
+td:nth-child(1),
+th:nth-child(1) {
+    background-color: #ebebeb!important;
+    color: rgb(87, 87, 87) !important;
+}
+.action-button{
+    font-size: large;
+    font-weight: 900;
+    border: none;
+    background-color: transparent;
+    padding: 3px 5px;
+    text-decoration: underline;
+    color: blue;
+    cursor: pointer;
+}
+.div-file-name{
+    width: 100%;
+    padding: 5px 5px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    cursor: pointer;
+}
